@@ -48,3 +48,55 @@
                          (make-insert "test")]))
             e [{:value "testtest" :attributes nil}]]
         (is (= e d))))))
+
+(deftest operation
+  (testing "Operation"
+    (testing "Insert"
+      (testing "empty text"
+        (is (thrown? AssertionError (-> (delta) (insert "")))))
+
+      (testing "text"
+        (is (= [{:value "text" :attributes nil}]
+               (v (-> (delta) (insert "text"))))))
+
+      (testing "text with attributes"
+        (is (= [{:value "text" :attributes {:bold true}}]
+               (v (-> (delta) (insert "text" {:bold true}))))))
+
+      (testing "empty attributes"
+        (is (thrown? AssertionError (-> (delta) (insert "text" {})))))
+
+      (testing "embed"
+        (is (= [{:value 1 :attributes {:src "img.svg"}}]
+               (v (-> (delta) (insert 1 {:src "img.svg"}))))))
+
+      (testing "embed with incorrect placeholder"
+        (is (thrown? AssertionError (-> (delta) (insert 2 {:src "img.svg"}))))))
+
+    (testing "Retain"
+      (testing "0"
+        (is (thrown? AssertionError (-> (delta) (retain 0)))))
+
+      (testing "1"
+        (is (= [{:value 1 :attributes nil}]
+               (v (-> (delta) (retain 1))))))
+
+      (testing "n"
+        (is (= [{:value 2 :attributes nil}]
+               (v (-> (delta) (retain 2))))))
+
+      (testing "with attributes"
+        (is (= [{:value 1 :attributes {:bold true}}]
+               (v (-> (delta) (retain 1 {:bold true})))))))
+
+    (testing "Delete"
+      (testing "0"
+        (is (thrown? AssertionError (-> (delta) (delete 0)))))
+
+      (testing "1"
+        (is (= [{:value 1}]
+               (v (-> (delta) (delete 1))))))
+
+      (testing "n"
+        (is (= [{:value 2}]
+               (v (-> (delta) (delete 2)))))))))
