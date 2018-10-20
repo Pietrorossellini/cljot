@@ -1,14 +1,7 @@
 (ns cljot.delta
   (:require [cljot.op :refer [make-insert make-retain make-delete]]
-            [cljot.op-impl :refer [mergeable? merge-ops]]))
-
-(defn- add-op [delta op]
-  (if (seq delta)
-    (let [last (peek delta)]
-      (if (mergeable? last op)
-        (conj (pop delta) (merge-ops last op))
-        (conj delta op)))
-    [op]))
+            [cljot.op-impl :refer [mergeable? merge-ops]]
+            [cljot.delta-impl :refer [add-op]]))
 
 (defn delta
   ([] [])

@@ -1,5 +1,10 @@
 (ns cljot.op
-  (:require [cljot.op-impl :refer :all]))
+  (:require [cljot.op-impl :refer :all])
+  (:import [cljot.op_impl Insert Retain Delete]))
+
+(derive Insert ::operation)
+(derive Retain ::operation)
+(derive Delete ::operation)
 
 (defn- insert-text
   ([text]
