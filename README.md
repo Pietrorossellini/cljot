@@ -2,6 +2,15 @@
 
 Operational transformation format with support for concurrent rich text editing.
 
+## Approach and compatibility
+
+Cljot is designed for concurrent editing with centralized decision-making,
+i.e., it is primarily meant to be used with client-server topology where the canonical order of concurrent edits is decided by a central server.
+This poses some restrictions on true concurrency and entails an acknowledgement-based application of state changes.
+
+Cljot is also heavily inspired by the [Quill Delta format](https://github.com/quilljs/delta).
+Consequently, Cljot is mostly compatible with Deltas created with Quill Delta.
+
 ## Usage
 
 Cljot is based on deltas, which are vectors of operations applied successively.
