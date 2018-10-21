@@ -1,5 +1,7 @@
 # Cljot
 
+[![Build Status](https://travis-ci.com/Pietrorossellini/cljot.svg?branch=master)](https://travis-ci.com/Pietrorossellini/cljot)
+
 Operational transformation format with support for concurrent rich text editing.
 
 ## Approach and compatibility
