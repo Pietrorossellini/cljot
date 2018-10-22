@@ -2,6 +2,7 @@
 
 [![Build Status](https://travis-ci.com/Pietrorossellini/cljot.svg?branch=master)](https://travis-ci.com/Pietrorossellini/cljot)
 [![codecov](https://codecov.io/gh/Pietrorossellini/cljot/branch/master/graph/badge.svg)](https://codecov.io/gh/Pietrorossellini/cljot)
+[![Clojars Project](https://img.shields.io/clojars/v/cljot.svg)](https://clojars.org/cljot)
 
 Operational transformation format with support for concurrent rich text editing.
 
@@ -30,6 +31,8 @@ and changes between two document states.
 
 Cljot is primarily used via a `delta` abstraction.
 A `delta` is fundamentally a vector of operations.
+
+The Cljot public API is contained within the `cljot.delta` namespace.
 
 #### Constructing a delta
 
