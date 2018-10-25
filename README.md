@@ -29,12 +29,12 @@ and changes between two document states.
 
 ### API
 
-Cljot is primarily used via a `delta` abstraction.
+The Cljot public API is contained within the `cljot.delta`, `cljot.compose`, and `cljot.transform` namespaces.
+
+### Constructing a delta
+
+Cljot models documents using the `delta` abstraction.
 A `delta` is fundamentally a vector of operations.
-
-The Cljot public API is contained within the `cljot.delta` namespace.
-
-#### Constructing a delta
 
 #### `delta`
 Parameterless delta constructor gives a new, empty delta:
@@ -43,7 +43,7 @@ Parameterless delta constructor gives a new, empty delta:
 (delta) ;=> []
 ```
 
-#### Operations on delta
+### Operations on delta
 
 Operations can be conjed to a delta by using the `insert`, `retain`, and `delete` functions and threading.
 
@@ -72,12 +72,63 @@ or applying attributes to the range:
 ```
 
 #### `delete`
-Used for removing a given range.
+Used for removing a given range:
 
 ```clojure
 (-> (delta) (delete 1))
 ;=> [#cljot.op.Delete{:value 1}]
 ```
+
+### Operational transformation
+
+Cljot includes two central functions for supporting operational transformation: delta composition and transformation.
+
+#### `compose`
+Composes two deltas:
+
+```clojure
+(compose
+  (-> (delta)
+      (insert "a"))
+  (-> (delta)
+      (insert "b")))
+
+;=> [#cljot.op_impl.Insert{:value "ba", :attributes nil}]
+```
+
+#### `transform`
+Transforms a given delta by another.
+
+The order of the two concurrent deltas can be decided:
+
+##### `transform-prioritising-a`
+The first delta takes place first.
+
+```clojure
+(transform-prioritising-a
+  (-> (delta)
+      (insert "a"))
+  (-> (delta)
+      (insert "b")))
+
+;=> [#cljot.op_impl.Retain{:value 1, :attributes nil}
+;    #cljot.op_impl.Insert{:value "a", :attributes nil}]
+```
+
+##### `transform-prioritising-b`
+The second delta takes place first.
+
+```clojure
+(transform-prioritising-b
+  (-> (delta)
+      (insert "a"))
+  (-> (delta)
+      (insert "b")))
+
+;=> [#cljot.op_impl.Insert{:value "a", :attributes nil}]
+```
+
+The `transform` function is an alias for `transform-prioritising-b`.
 
 ## License
 
