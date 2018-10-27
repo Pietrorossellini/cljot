@@ -52,10 +52,10 @@ Used for appending content to a given delta:
 
 ```clojure
 (-> (delta) (insert "text"))
-;=> [#cljot.op.Insert{:value "text", :attributes nil}]
+;=> [#cljot.delta.impl.ops.Insert{:value "text", :attributes nil}]
 
 (-> (delta) (insert "text" {:bold true}))
-;=> [#cljot.op.Insert{:value "text", :attributes {:bold true}}]
+;=> [#cljot.delta.impl.ops.Insert{:value "text", :attributes {:bold true}}]
 ```
 
 #### `retain`
@@ -64,11 +64,11 @@ or applying attributes to the range:
 
 ```clojure
 (-> (delta) (retain 3) (insert "text")) 
-;=> [#cljot.op.Retain{:value 3, :attributes nil}
-;    #cljot.op.Insert{:value "text", :attributes nil}]
+;=> [#cljot.delta.impl.ops.Retain{:value 3, :attributes nil}
+;    #cljot.delta.impl.ops.Insert{:value "text", :attributes nil}]
 
 (-> (delta) (retain 1 {:bold true}))
-;=> [#cljot.op.Retain{:value 1, :attributes {:bold true}}]
+;=> [#cljot.delta.impl.ops.Retain{:value 1, :attributes {:bold true}}]
 ```
 
 #### `delete`
@@ -76,7 +76,7 @@ Used for removing a given range:
 
 ```clojure
 (-> (delta) (delete 1))
-;=> [#cljot.op.Delete{:value 1}]
+;=> [#cljot.delta.impl.ops.Delete{:value 1}]
 ```
 
 ### Operational transformation
@@ -93,7 +93,7 @@ Composes two deltas:
   (-> (delta)
       (insert "b")))
 
-;=> [#cljot.op_impl.Insert{:value "ba", :attributes nil}]
+;=> [#cljot.delta.impl.ops.Insert{:value "ba", :attributes nil}]
 ```
 
 #### `transform`
@@ -111,8 +111,8 @@ The first delta takes place first.
   (-> (delta)
       (insert "b")))
 
-;=> [#cljot.op_impl.Retain{:value 1, :attributes nil}
-;    #cljot.op_impl.Insert{:value "a", :attributes nil}]
+;=> [#cljot.delta.impl.ops.Retain{:value 1, :attributes nil}
+;    #cljot.delta.impl.ops.Insert{:value "a", :attributes nil}]
 ```
 
 ##### `transform-prioritising-b`
@@ -125,7 +125,7 @@ The second delta takes place first.
   (-> (delta)
       (insert "b")))
 
-;=> [#cljot.op_impl.Insert{:value "a", :attributes nil}]
+;=> [#cljot.delta.impl.ops.Insert{:value "a", :attributes nil}]
 ```
 
 The `transform` function is an alias for `transform-prioritising-b`.
