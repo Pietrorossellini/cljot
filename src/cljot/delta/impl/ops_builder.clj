@@ -1,10 +1,5 @@
 (ns cljot.delta.impl.ops-builder
-  (:require [cljot.delta.impl.ops :refer :all])
-  (:import [cljot.delta.impl.ops Insert Retain Delete]))
-
-(derive Insert ::operation)
-(derive Retain ::operation)
-(derive Delete ::operation)
+  (:require [cljot.delta.impl.ops :refer :all]))
 
 (defn- insert-text
   ([text]

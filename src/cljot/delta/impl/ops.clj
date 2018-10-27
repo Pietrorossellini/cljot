@@ -9,6 +9,10 @@
 (defrecord Retain [value attributes])
 (defrecord Delete [value])
 
+(derive Insert ::operation)
+(derive Retain ::operation)
+(derive Delete ::operation)
+
 (defn- split-range [delta i]
   {:pre (< 0 i (len delta))}
   [(assoc delta :value i)

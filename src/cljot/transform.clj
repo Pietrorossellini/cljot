@@ -1,8 +1,8 @@
 (ns cljot.transform
   (:require [cljot.delta :refer [delta]]
             [cljot.delta.impl.delta-support :refer [consume-overlap add-op trim]]
-            [cljot.delta.impl.ops-builder :as op :refer [make-retain]]
-            [cljot.delta.impl.ops :refer [chunk-ops len mergeable? merge-ops]]
+            [cljot.delta.impl.ops-builder :refer [make-retain]]
+            [cljot.delta.impl.ops :as ops :refer [chunk-ops len mergeable? merge-ops]]
             [clojure.set :refer [difference]])
   (:import [cljot.delta.impl.ops Insert Retain Delete]))
 
@@ -27,12 +27,12 @@
         [_ b-next] (consume-overlap a b a2 b2)]
     [a b-next (add-op res (make-retain (len b1)))]))
 
-(defmethod transform-ops [Insert ::op/operation ::priority-any] [a b res _]
+(defmethod transform-ops [Insert ::ops/operation ::priority-any] [a b res _]
   (let [[[a1 _] [a2 b2]] (chunk-ops (first a) (first b))
         [a-next _] (consume-overlap a b a2 b2)]
     [a-next b (add-op res a1)]))
 
-(defmethod transform-ops [::op/operation Insert ::priority-any] [a b res _]
+(defmethod transform-ops [::ops/operation Insert ::priority-any] [a b res _]
   (let [[[_ b1] [a2 b2]] (chunk-ops (first a) (first b))
         [_ b-next] (consume-overlap a b a2 b2)]
     [a b-next (add-op res (make-retain (len b1)))]))
@@ -47,19 +47,19 @@
         [a-next b-next] (consume-overlap a b a2 b2)]
     [a-next b-next (add-op res (transform-attributes priority a1 b1))]))
 
-(defmethod transform-ops [::op/operation Delete ::priority-any] [a b res _]
+(defmethod transform-ops [::ops/operation Delete ::priority-any] [a b res _]
   (let [[_ [a2 b2]] (chunk-ops (first a) (first b))
         [a-next b-next] (consume-overlap a b a2 b2)]
     [a-next b-next res]))
 
-(defmethod transform-ops [nil ::op/operation ::priority-any] [_ _ res _]
+(defmethod transform-ops [nil ::ops/operation ::priority-any] [_ _ res _]
   [nil nil res])
 
-(defmethod transform-ops [::op/operation nil ::priority-any] [a b res _]
+(defmethod transform-ops [::ops/operation nil ::priority-any] [a b res _]
   [(subvec a 1) b (add-op res (first a))])
 
-(prefer-method transform-ops [Insert ::op/operation ::priority-any] [::op/operation Insert ::priority-any])
-(prefer-method transform-ops [Insert ::op/operation ::priority-any] [::op/operation Delete ::priority-any])
+(prefer-method transform-ops [Insert ::ops/operation ::priority-any] [::ops/operation Insert ::priority-any])
+(prefer-method transform-ops [Insert ::ops/operation ::priority-any] [::ops/operation Delete ::priority-any])
 
 (defn- transform-with-priority [priority a b]
   (loop [res [] a-ops a b-ops b]
