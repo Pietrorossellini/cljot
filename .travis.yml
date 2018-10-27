@@ -1,5 +1,14 @@
 language: clojure
 
-after_success:
-- CLOVERAGE_VERSION=1.0.13 lein cloverage --codecov
-- bash <(curl -s https://codecov.io/bash)
+jobs:
+  include:
+  - stage: test
+    script: lein test
+  - stage: deploy
+    script: bash script/codecov.sh
+  - script: echo "Starting deployment job"
+    deploy:
+      provider: script
+      script: lein deploy clojars
+      on:
+        branch: master
