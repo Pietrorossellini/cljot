@@ -1,9 +1,9 @@
 (ns cljot.compose
   (:require [cljot.delta :refer [delta]]
-            [cljot.delta-impl :refer [add-op consume-overlap trim]]
-            [cljot.op :as op]
-            [cljot.op-impl :refer [mergeable? merge-ops merge-attributes chunk-ops]])
-  (:import [cljot.op_impl Insert Retain Delete]))
+            [cljot.delta.impl.delta-support :refer [add-op consume-overlap trim]]
+            [cljot.delta.impl.ops-builder :as op]
+            [cljot.delta.impl.ops :refer [mergeable? merge-ops merge-attributes chunk-ops]])
+  (:import [cljot.delta.impl.ops Insert Retain Delete]))
 
 (defmulti compose-ops
           (fn [a b _]

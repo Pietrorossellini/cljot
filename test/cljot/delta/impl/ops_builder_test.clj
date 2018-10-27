@@ -1,6 +1,6 @@
-(ns cljot.op-test
+(ns cljot.delta.impl.ops-builder-test
   (:require [clojure.test :refer :all]
-            [cljot.op :refer :all]))
+            [cljot.delta.impl.ops-builder :refer :all]))
 
 (defn- v [op] (into {} op))
 

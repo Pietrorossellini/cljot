@@ -1,7 +1,7 @@
-(ns cljot.delta-impl
+(ns cljot.delta.impl.delta-support
   (:require [clojure.core.match :refer [match]]
-            [cljot.op-impl :refer [mergeable? merge-ops]])
-  (:import [cljot.op_impl Retain]))
+            [cljot.delta.impl.ops :refer [mergeable? merge-ops]])
+  (:import [cljot.delta.impl.ops Retain]))
 
 (defn add-op [delta op]
   (if (seq delta)

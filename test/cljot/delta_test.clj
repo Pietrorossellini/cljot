@@ -1,6 +1,6 @@
 (ns cljot.delta-test
   (:require [clojure.test :refer :all]
-            [cljot.op :refer [make-insert]]
+            [cljot.delta.impl.ops-builder :refer [make-insert]]
             [cljot.delta :refer :all]))
 
 (defn- v [delta] (vec (map (partial into {}) delta)))

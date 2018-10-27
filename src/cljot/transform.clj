@@ -1,10 +1,10 @@
 (ns cljot.transform
   (:require [cljot.delta :refer [delta]]
-            [cljot.delta-impl :refer [consume-overlap add-op trim]]
-            [cljot.op :as op :refer [make-retain]]
-            [cljot.op-impl :refer [chunk-ops len mergeable? merge-ops]]
+            [cljot.delta.impl.delta-support :refer [consume-overlap add-op trim]]
+            [cljot.delta.impl.ops-builder :as op :refer [make-retain]]
+            [cljot.delta.impl.ops :refer [chunk-ops len mergeable? merge-ops]]
             [clojure.set :refer [difference]])
-  (:import [cljot.op_impl Insert Retain Delete]))
+  (:import [cljot.delta.impl.ops Insert Retain Delete]))
 
 (derive ::priority-a ::priority-any)
 (derive ::priority-b ::priority-any)

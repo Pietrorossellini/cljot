@@ -1,4 +1,4 @@
-(ns cljot.op-impl)
+(ns cljot.delta.impl.ops)
 
 (defprotocol Operation
   (len [this])
