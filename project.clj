@@ -1,4 +1,4 @@
-(defproject cljot "0.1.1"
+(defproject cljot "0.2.0-alpha-SNAPSHOT"
   :description "Operational transformation format with support for concurrent rich text editing"
   :url "https://github.com/Pietrorossellini/cljot"
   :license {:name "EPL-2.0"
