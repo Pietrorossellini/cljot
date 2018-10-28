@@ -11,4 +11,5 @@ jobs:
       provider: script
       script: lein deploy clojars
       on:
-        branch: master
+        all_branches: true
+        condition: $TRAVIS_BRANCH =~ ^master|develop$
